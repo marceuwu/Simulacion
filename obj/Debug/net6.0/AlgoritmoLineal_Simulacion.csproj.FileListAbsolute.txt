@@ -1,0 +1,15 @@
+C:\Users\marce\source\repos\AlgoritmoLineal_Simulacion\AlgoritmoLineal_Simulacion\obj\Debug\net6.0\AlgoritmoLineal_Simulacion.csproj.AssemblyReference.cache
+C:\Users\marce\source\repos\AlgoritmoLineal_Simulacion\AlgoritmoLineal_Simulacion\obj\Debug\net6.0\AlgoritmoLineal_Simulacion.GeneratedMSBuildEditorConfig.editorconfig
+C:\Users\marce\source\repos\AlgoritmoLineal_Simulacion\AlgoritmoLineal_Simulacion\obj\Debug\net6.0\AlgoritmoLineal_Simulacion.AssemblyInfoInputs.cache
+C:\Users\marce\source\repos\AlgoritmoLineal_Simulacion\AlgoritmoLineal_Simulacion\obj\Debug\net6.0\AlgoritmoLineal_Simulacion.AssemblyInfo.cs
+C:\Users\marce\source\repos\AlgoritmoLineal_Simulacion\AlgoritmoLineal_Simulacion\obj\Debug\net6.0\AlgoritmoLineal_Simulacion.csproj.CoreCompileInputs.cache
+C:\Users\marce\source\repos\AlgoritmoLineal_Simulacion\AlgoritmoLineal_Simulacion\bin\Debug\net6.0\AlgoritmoLineal_Simulacion.exe
+C:\Users\marce\source\repos\AlgoritmoLineal_Simulacion\AlgoritmoLineal_Simulacion\bin\Debug\net6.0\AlgoritmoLineal_Simulacion.deps.json
+C:\Users\marce\source\repos\AlgoritmoLineal_Simulacion\AlgoritmoLineal_Simulacion\bin\Debug\net6.0\AlgoritmoLineal_Simulacion.runtimeconfig.json
+C:\Users\marce\source\repos\AlgoritmoLineal_Simulacion\AlgoritmoLineal_Simulacion\bin\Debug\net6.0\AlgoritmoLineal_Simulacion.dll
+C:\Users\marce\source\repos\AlgoritmoLineal_Simulacion\AlgoritmoLineal_Simulacion\bin\Debug\net6.0\AlgoritmoLineal_Simulacion.pdb
+C:\Users\marce\source\repos\AlgoritmoLineal_Simulacion\AlgoritmoLineal_Simulacion\obj\Debug\net6.0\AlgoritmoLineal_Simulacion.dll
+C:\Users\marce\source\repos\AlgoritmoLineal_Simulacion\AlgoritmoLineal_Simulacion\obj\Debug\net6.0\refint\AlgoritmoLineal_Simulacion.dll
+C:\Users\marce\source\repos\AlgoritmoLineal_Simulacion\AlgoritmoLineal_Simulacion\obj\Debug\net6.0\AlgoritmoLineal_Simulacion.pdb
+C:\Users\marce\source\repos\AlgoritmoLineal_Simulacion\AlgoritmoLineal_Simulacion\obj\Debug\net6.0\AlgoritmoLineal_Simulacion.genruntimeconfig.cache
+C:\Users\marce\source\repos\AlgoritmoLineal_Simulacion\AlgoritmoLineal_Simulacion\obj\Debug\net6.0\ref\AlgoritmoLineal_Simulacion.dll
