@@ -4,6 +4,7 @@ using System.ComponentModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.IO;
 
 namespace AlgoritmoLineal_Simulacion
 {
@@ -32,6 +33,8 @@ namespace AlgoritmoLineal_Simulacion
         int tiempoDescarga;
         int tiempoEspera;
         int j;
+
+        string sTeoriaColas = "";
         public TeoriaColas(int numPersonas, float turno, float salario, float tiempoExtra, float costoEsperaCamion)
         {
             this.numPersonas = numPersonas;
@@ -63,6 +66,8 @@ namespace AlgoritmoLineal_Simulacion
                 horaDescarga = horaSalidaCamion;
             }
 
+            sTeoriaColas = sTeoriaColas + "\n" + PSE[i] + "\t" + tiempoEntreLlegada + "\t" + horaLlegada.TimeOfDay + "\t" + horaDescarga.TimeOfDay;
+
             Console.Write("\n" + PSE[i]);
             Console.Write("\t" + tiempoEntreLlegada);
             Console.Write("\t" + horaLlegada.TimeOfDay);
@@ -85,6 +90,8 @@ namespace AlgoritmoLineal_Simulacion
 
             }
 
+            sTeoriaColas = sTeoriaColas + "\t" + PSE[i]+ "\t" + tiempoDescarga;
+
             Console.Write("\t" + PSE[i]);
             Console.Write("\t" + tiempoDescarga);
 
@@ -96,6 +103,7 @@ namespace AlgoritmoLineal_Simulacion
             }
             tiempoEspera = (int)(horaDescarga - horaLlegada).TotalMinutes;
 
+            sTeoriaColas = sTeoriaColas + "\t" + horaSalidaCamion.TimeOfDay + "\t" + tiempoEspera;
             Console.Write("\t" + horaSalidaCamion.TimeOfDay);
             Console.Write("\t" + tiempoEspera);
 
@@ -104,45 +112,48 @@ namespace AlgoritmoLineal_Simulacion
         }
         public void Implementar(int numCorridas)
         {
-            
 
             while (contCorridas < numCorridas)
             {
+                sTeoriaColas = sTeoriaColas + "\n--------------------------------- CORRIDA <" + contCorridas + "> ---------------------------------------------------------------";
                 Console.WriteLine("\n--------------------------------- CORRIDA <" + contCorridas + "> ---------------------------------------------------------------");
                 horaLlegada = horaLaboralInicio;
                 horaSalidaCamion = new DateTime(2022, 10, 08, 0, 0, 0); ;
                 tiempoDescarga = 0;
                 
                 numCamiones = TransfInversaCamionesEspera(PSE[i]);
+                
+                sTeoriaColas = sTeoriaColas + "\n" + PSE[i] + "\t camiones en espera: " + numCamiones;
+
                 Console.Write("\n" + PSE[i]);
                 Console.Write("\t camiones en espera: " + numCamiones);
-                int contCamiones = 0;
+                
+                sTeoriaColas = sTeoriaColas + "\n---------------------------------- Camiones en espera ----------------------------------------------";
+                Console.WriteLine("\n---------------------------------- Camiones en espera ----------------------------------------------");
 
                 switch (numCamiones)
                 {
                     
                     case 1:
-                        Console.WriteLine("\n---------------------------------- Camiones en espera ----------------------------------------------");
                         LlegaCamion();
-                        Console.WriteLine("\n----------------------------------------------------------------------------------------------------");
                         break;
                     case 2:
-                        Console.WriteLine("\n---------------------------------- Camiones en espera ----------------------------------------------");
                         for (int x=0; x<2; x++)
                         {
                             LlegaCamion();
                         }
-                        Console.WriteLine("\n----------------------------------------------------------------------------------------------------");
                         break;
                     case 3:
-                        Console.WriteLine("\n---------------------------------- Camiones en espera ----------------------------------------------");
                         for (int x = 0; x < 3; x++)
                         {
                             LlegaCamion();
                         }
-                        Console.WriteLine("\n----------------------------------------------------------------------------------------------------");
                         break;
                 }
+                
+                sTeoriaColas = sTeoriaColas + "\n----------------------------------------------------------------------------------------------------";
+                Console.WriteLine("\n----------------------------------------------------------------------------------------------------");
+
                 for (j=0; ; j++)
                 {
 
@@ -151,10 +162,13 @@ namespace AlgoritmoLineal_Simulacion
                         break;
                     }
                 }
+
+                sTeoriaColas = sTeoriaColas + "\n-------------------------------------------------------------------------------------------------------------";
                 Console.WriteLine("\n-------------------------------------------------------------------------------------------------------------");
                 contCorridas++;
             }
             Console.ReadLine();
+            EscribirArchivo();
         }
         public int TransfInversaCamionesEspera(float pse)
         {
@@ -386,6 +400,14 @@ namespace AlgoritmoLineal_Simulacion
                 return 45;
             }
             return 0;
+        }
+        public void EscribirArchivo()
+        {
+            TextWriter Escribir = new StreamWriter("C:\\Mis archivos\\Quinto semestre\\Simulación\\Teoria de cola.txt");
+
+            Escribir.WriteLine("TEORIA DE COLAS\n");
+            Escribir.WriteLine(sTeoriaColas);
+            Escribir.Close();
         }
     }
 }
