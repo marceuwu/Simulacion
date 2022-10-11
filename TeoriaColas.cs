@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -20,6 +21,17 @@ namespace AlgoritmoLineal_Simulacion
         DateTime horaComida = new DateTime(2022, 10, 08, 03, 00, 0);
 
         List<float> PSE;
+
+        int contCorridas = 0;
+        int i = 0;
+        int numCamiones;
+        int tiempoEntreLlegada;
+        DateTime horaLlegada;
+        DateTime horaDescarga;
+        DateTime horaSalidaCamion;
+        int tiempoDescarga;
+        int tiempoEspera;
+        int j;
         public TeoriaColas(int numPersonas, float turno, float salario, float tiempoExtra, float costoEsperaCamion)
         {
             this.numPersonas = numPersonas;
@@ -31,21 +43,72 @@ namespace AlgoritmoLineal_Simulacion
             NumPseudoaleatorios oNumeros = new NumPseudoaleatorios(6, 8192, 15, 13);
             PSE = oNumeros.getNumerosPseudoaleatrios();
         }
+
+        public int LlegaCamion() 
+        {
+            i++;
+            tiempoEntreLlegada = TransfInversaTiempoEntreLlegadas(PSE[i]);
+            horaLlegada = horaLlegada.AddMinutes(tiempoEntreLlegada);
+            if (horaLlegada > horaAlmacen)
+            {
+                return 0;
+            }
+            if (j == 0 || horaLlegada > horaSalidaCamion)
+            {
+                horaDescarga = horaLlegada;
+            }
+            else
+            {
+
+                horaDescarga = horaSalidaCamion;
+            }
+
+            Console.Write("\n" + PSE[i]);
+            Console.Write("\t" + tiempoEntreLlegada);
+            Console.Write("\t" + horaLlegada.TimeOfDay);
+            Console.Write("\t" + horaDescarga.TimeOfDay);
+            i++;
+            switch (numPersonas)
+            {
+                case 3:
+                    tiempoDescarga = TransfInversaTiempoServico3Personas(PSE[i]);
+                    break;
+                case 4:
+                    tiempoDescarga = TransfInversaTiempoServico4Personas(PSE[i]);
+                    break;
+                case 5:
+                    tiempoDescarga = TransfInversaTiempoServico5Personas(PSE[i]);
+                    break;
+                case 6:
+                    tiempoDescarga = TransfInversaTiempoServico6Personas(PSE[i]);
+                    break;
+
+            }
+
+            Console.Write("\t" + PSE[i]);
+            Console.Write("\t" + tiempoDescarga);
+
+
+            horaSalidaCamion = horaDescarga.AddMinutes(tiempoDescarga);
+            if (horaSalidaCamion == horaComida)
+            {
+                horaSalidaCamion = horaSalidaCamion.AddMinutes(30);
+            }
+            tiempoEspera = (int)(horaDescarga - horaLlegada).TotalMinutes;
+
+            Console.Write("\t" + horaSalidaCamion.TimeOfDay);
+            Console.Write("\t" + tiempoEspera);
+
+            return 1;
+
+        }
         public void Implementar(int numCorridas)
         {
-            int contCorridas=0;
-            int i = 0;
-            int numCamiones;
-            int tiempoEntreLlegada;
-            DateTime horaLlegada;
-            DateTime horaDescarga;
-            DateTime horaSalidaCamion;
-            int tiempoDescarga;
-            int tiempoEspera;
+            
 
             while (contCorridas < numCorridas)
             {
-                Console.WriteLine("--------------------------------- CORRIDA <" + contCorridas + ">------------------------------------------------------");
+                Console.WriteLine("\n--------------------------------- CORRIDA <" + contCorridas + "> ---------------------------------------------------------------");
                 horaLlegada = horaLaboralInicio;
                 horaSalidaCamion = new DateTime(2022, 10, 08, 0, 0, 0); ;
                 tiempoDescarga = 0;
@@ -53,62 +116,42 @@ namespace AlgoritmoLineal_Simulacion
                 numCamiones = TransfInversaCamionesEspera(PSE[i]);
                 Console.Write("\n" + PSE[i]);
                 Console.Write("\t camiones en espera: " + numCamiones);
-                for (int j=0; ; j++)
+                int contCamiones = 0;
+
+                switch (numCamiones)
                 {
                     
-                    i++;
-                    tiempoEntreLlegada = TransfInversaTiempoEntreLlegadas(PSE[i]);
-                    horaLlegada = horaLlegada.AddMinutes(tiempoEntreLlegada);
-                    if (horaLlegada > horaAlmacen)
+                    case 1:
+                        Console.WriteLine("\n---------------------------------- Camiones en espera ----------------------------------------------");
+                        LlegaCamion();
+                        Console.WriteLine("\n----------------------------------------------------------------------------------------------------");
+                        break;
+                    case 2:
+                        Console.WriteLine("\n---------------------------------- Camiones en espera ----------------------------------------------");
+                        for (int x=0; x<2; x++)
+                        {
+                            LlegaCamion();
+                        }
+                        Console.WriteLine("\n----------------------------------------------------------------------------------------------------");
+                        break;
+                    case 3:
+                        Console.WriteLine("\n---------------------------------- Camiones en espera ----------------------------------------------");
+                        for (int x = 0; x < 3; x++)
+                        {
+                            LlegaCamion();
+                        }
+                        Console.WriteLine("\n----------------------------------------------------------------------------------------------------");
+                        break;
+                }
+                for (j=0; ; j++)
+                {
+
+                    if(LlegaCamion() == 0)
                     {
                         break;
                     }
-                    if (j == 0 || horaLlegada > horaSalidaCamion)
-                    {
-                        horaDescarga = horaLlegada;
-                    }
-                    else
-                    {
-
-                        horaDescarga = horaSalidaCamion;
-                    }
-                
-                    Console.Write("\n" + PSE[i]);
-                    Console.Write("\t" + tiempoEntreLlegada);
-                    Console.Write("\t" + horaLlegada.TimeOfDay);
-                    Console.Write("\t" + horaDescarga.TimeOfDay);
-                    i++;
-                    switch (numPersonas)
-                    {
-                        case 3:
-                            tiempoDescarga = TransfInversaTiempoServico3Personas(PSE[i]);
-                            break;
-                        case 4:
-                            tiempoDescarga = TransfInversaTiempoServico4Personas(PSE[i]);
-                            break;
-                        case 5:
-                            break;
-                        case 6:
-                            break;
-
-                    }
-
-                    Console.Write("\t" + PSE[i]);
-                    Console.Write("\t" + tiempoDescarga);
-
-
-                    horaSalidaCamion = horaDescarga.AddMinutes(tiempoDescarga);
-                    if(horaSalidaCamion == horaComida)
-                    {
-                        horaSalidaCamion = horaSalidaCamion.AddMinutes(30);
-                    }
-                    tiempoEspera = (int)(horaDescarga- horaLlegada).TotalMinutes;
-                
-                    Console.Write("\t" + horaSalidaCamion.TimeOfDay);
-                    Console.Write("\t" + tiempoEspera);
-                    
                 }
-                Console.WriteLine("\n----------------------------------------------------------------------------------------------------");
+                Console.WriteLine("\n-------------------------------------------------------------------------------------------------------------");
                 contCorridas++;
             }
             Console.ReadLine();
