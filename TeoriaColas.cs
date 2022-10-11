@@ -15,11 +15,11 @@ namespace AlgoritmoLineal_Simulacion
         float tiempoExtra;
         float costoEsperaCamion;
 
-        DateTime horaLaboral = new DateTime(2022,10,07,23,0,0);
+        DateTime horaLaboralInicio = new DateTime(2022,10,07,23,0,0);
         DateTime horaAlmacen = new DateTime(2022, 10, 08, 07, 30, 0);
         DateTime horaComida = new DateTime(2022, 10, 08, 03, 00, 0);
 
-        List<float> listaNumerosP;
+        List<float> PSE;
         public TeoriaColas(int numPersonas, float turno, float salario, float tiempoExtra, float costoEsperaCamion)
         {
             this.numPersonas = numPersonas;
@@ -29,9 +29,81 @@ namespace AlgoritmoLineal_Simulacion
             this.costoEsperaCamion = costoEsperaCamion;
 
             NumPseudoaleatorios oNumeros = new NumPseudoaleatorios(6, 8192, 15, 13);
-            listaNumerosP = oNumeros.getNumerosPseudoaleatrios();
+            PSE = oNumeros.getNumerosPseudoaleatrios();
         }
+        public void Implementar(int numCorridas)
+        {
+            int i = 0;
+            int numCamiones;
+            int tiempoEntreLlegada;
 
+            DateTime horaLlegada = horaLaboralInicio;
+            DateTime horaDescarga;
+            //DateTime horaDescargaAnt = new DateTime(2022,10,08,0,0,0);
+            DateTime horaSalidaCamion = new DateTime(2022, 10, 08, 0, 0, 0); ;
+            int tiempoDescarga = 0;
+            int tiempoEspera;
+           
+            for (int j=0; j<13; j++)
+            {
+                //numCamiones = TransfInversaCamionesEspera(PSE[i]);
+                //Console.Write("\n" + PSE[i]);
+                //Console.Write("\t" + numCamiones);
+                i++;
+                if (horaLlegada >=horaAlmacen)
+                {
+                    break;
+                }
+                
+                tiempoEntreLlegada = TransfInversaTiempoEntreLlegadas(PSE[i]);
+                horaLlegada = horaLlegada.AddMinutes(tiempoEntreLlegada);
+                if (j == 0 || horaLlegada > horaSalidaCamion)
+                {
+                    horaDescarga = horaLlegada;
+                }
+                else
+                {
+
+                    horaDescarga = horaSalidaCamion;
+                }
+                
+                Console.Write("\n" + PSE[i]);
+                Console.Write("\t" + tiempoEntreLlegada);
+                Console.Write("\t" + horaLlegada.TimeOfDay);
+                Console.Write("\t" + horaDescarga.TimeOfDay);
+                i++;
+                switch (numPersonas)
+                {
+                    case 3:
+                        tiempoDescarga = TransfInversaTiempoServico3Personas(PSE[i]);
+                        break;
+                    case 4:
+                        tiempoDescarga = TransfInversaTiempoServico4Personas(PSE[i]);
+                        break;
+                    case 5:
+                        break;
+                    case 6:
+                        break;
+
+                }
+
+                Console.Write("\t" + PSE[i]);
+                Console.Write("\t" + tiempoDescarga);
+
+
+                horaSalidaCamion = horaDescarga.AddMinutes(tiempoDescarga);
+                if(horaSalidaCamion == horaComida)
+                {
+                    horaSalidaCamion = horaSalidaCamion.AddMinutes(30);
+                }
+                tiempoEspera = (int)(horaDescarga- horaLlegada).TotalMinutes;
+                
+                Console.Write("\t" + horaSalidaCamion.TimeOfDay);
+                Console.Write("\t" + tiempoEspera);
+                
+            }
+            Console.ReadLine();
+        }
         public int TransfInversaCamionesEspera(float pse)
         {
             if (pse >= 0 && pse < 0.5)
@@ -89,7 +161,7 @@ namespace AlgoritmoLineal_Simulacion
             {
                 return 55;
             }
-            else if (pse >= 0.97 && pse < 0.1)
+            else if (pse >= 0.97 && pse < 1)
             {
                 return 60;
             }

@@ -17,7 +17,6 @@ namespace AlgoritmoLineal_Simulacion
         public NumPseudoaleatorios(int x0, int c, int k, int g)
         {
             AlgoritmoLineal(x0, c, k, g);
-            EscribirArchivo();
         }
 
         public List<float> getNumerosPseudoaleatrios()
@@ -56,7 +55,7 @@ namespace AlgoritmoLineal_Simulacion
                 contador++;
                 i++;
                 //Console.WriteLine(contador + "\t" + x[i] + "\t" + r[i]);
-                Console.WriteLine(r[i]);
+                //Console.WriteLine(r[i]);
                 duplicado = ValidarNumeros();
 
             } while (duplicado != true);
@@ -291,8 +290,8 @@ namespace AlgoritmoLineal_Simulacion
 
             if (duplicados.Count() > 0)
             {
-                Console.WriteLine("El patron se repite");
-                Console.WriteLine(String.Join(", ", duplicados));
+                //Console.WriteLine("El patron se repite");
+                //Console.WriteLine(String.Join(", ", duplicados));
                 r.RemoveAt(r.Count() - 1);
                 return true;
             }
