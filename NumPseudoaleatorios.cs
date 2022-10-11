@@ -20,6 +20,10 @@ namespace AlgoritmoLineal_Simulacion
             EscribirArchivo();
         }
 
+        public List<float> getNumerosPseudoaleatrios()
+        {
+            return r;
+        }
         public void AlgoritmoLineal(int x0, int c, int k, int g)
         {
             int a = 1 + (4 * k);
@@ -296,7 +300,7 @@ namespace AlgoritmoLineal_Simulacion
         }
         public void EscribirArchivo()
         {
-            TextWriter Escribir = new StreamWriter("C:\\Mis archivos\\Quinto semestre\\Simulación\\Simulacion.txt");
+            TextWriter Escribir = new StreamWriter("C:\\Mis archivos\\Quinto semestre\\Simulación\\Numeros pseudoaleatorios.txt");
 
             Escribir.WriteLine("Números pseudoaleatorios\n");
 
