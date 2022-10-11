@@ -52,7 +52,7 @@ namespace AlgoritmoLineal_Simulacion
                 
                 numCamiones = TransfInversaCamionesEspera(PSE[i]);
                 Console.Write("\n" + PSE[i]);
-                Console.Write("\t" + numCamiones);
+                Console.Write("\t camiones en espera: " + numCamiones);
                 for (int j=0; ; j++)
                 {
                     
@@ -225,38 +225,122 @@ namespace AlgoritmoLineal_Simulacion
             {
                 return 15;
             }
-            else if (pse >= 0.05 && pse < 0.15)
+            else if (pse >= 0.05 && pse < 0.20)
             {
                 return 20;
             }
-            else if (pse >= 0.15 && pse < 0.20)
+            else if (pse >= 0.20 && pse < 0.40)
             {
                 return 25;
             }
-            else if (pse >= 0.20 && pse < 0.60)
+            else if (pse >= 0.40 && pse < 0.60)
             {
                 return 35;
             }
-            else if (pse >= 0.60 && pse < 0.72)
+            else if (pse >= 0.60 && pse < 0.75)
             {
                 return 40;
 
             }
-            else if (pse >= 0.72 && pse < 0.82)
+            else if (pse >= 0.75 && pse < 0.87)
             {
                 return 45;
             }
-            else if (pse >= 0.82 && pse < 0.9)
+            else if (pse >= 0.87 && pse < 0.95)
             {
                 return 50;
             }
-            else if (pse >= 0.9 && pse < 0.96)
+            else if (pse >= 0.95 && pse < 0.99)
             {
                 return 55;
             }
-            else if (pse >= 0.96 && pse < 1)
+            else if (pse >= 0.99 && pse < 1)
             {
                 return 60;
+            }
+            return 0;
+        }
+
+        public int TransfInversaTiempoServico5Personas(float pse)
+        {
+            if (pse >= 0 && pse < 0.10)
+            {
+                return 10;
+            }
+            else if (pse >= 0.10 && pse < 0.28)
+            {
+                return 15;
+            }
+            else if (pse >= 0.28 && pse < 0.50)
+            {
+                return 20;
+            }
+            else if (pse >= 0.50 && pse < 0.68)
+            {
+                return 25;
+            }
+            else if (pse >= 0.68 && pse < 0.78)
+            {
+                return 30;
+
+            }
+            else if (pse >= 0.78 && pse < 0.86)
+            {
+                return 35;
+            }
+            else if (pse >= 0.86 && pse < 0.92)
+            {
+                return 40;
+            }
+            else if (pse >= 0.92 && pse < 0.97)
+            {
+                return 45;
+            }
+            else if (pse >= 0.97 && pse < 1)
+            {
+                return 50;
+            }
+            return 0;
+        }
+
+        public int TransfInversaTiempoServico6Personas(float pse)
+        {
+            if (pse >= 0 && pse < 0.12)
+            {
+                return 5;
+            }
+            else if (pse >= 0.12 && pse < 0.27)
+            {
+                return 10;
+            }
+            else if (pse >= 0.27 && pse < 0.53)
+            {
+                return 15;
+            }
+            else if (pse >= 0.53 && pse < 0.68)
+            {
+                return 20;
+            }
+            else if (pse >= 0.68 && pse < 0.80)
+            {
+                return 25;
+
+            }
+            else if (pse >= 0.80 && pse < 0.88)
+            {
+                return 30;
+            }
+            else if (pse >= 0.88 && pse < 0.94)
+            {
+                return 35;
+            }
+            else if (pse >= 0.94 && pse < 0.98)
+            {
+                return 40;
+            }
+            else if (pse >= 0.98 && pse < 1)
+            {
+                return 45;
             }
             return 0;
         }
