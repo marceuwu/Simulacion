@@ -21,7 +21,7 @@ namespace AlgoritmoLineal_Simulacion
             //oNumeros.EscribirArchivo();
 
             //Dado nuevoDado = new Dado(6, 8192, 15, 13);
-            TeoriaColas oCola = new TeoriaColas(3,8,25,37,100);
+            TeoriaColas oCola = new TeoriaColas(3,8,25,37,100,500);
             oCola.Implementar(10);
             
         }

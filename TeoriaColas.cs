@@ -5,17 +5,27 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.IO;
+using System.Drawing;
 
 namespace AlgoritmoLineal_Simulacion
 {
     internal class TeoriaColas
     {
+
         int numPersonas;
         float turno;
 
         float salario;
-        float tiempoExtra;
+        float costoTiempoExtra;
         float costoEsperaCamion;
+        float costoAlmacen;
+
+        float tEsperaCamion;
+        float tNormalOperadores;
+        float tExtraOperadores;
+        float disponibilidadAlmacen;
+        float tiempoExtra;
+        float sumaTiempoEspera = 0;
 
         DateTime horaLaboralInicio = new DateTime(2022,10,07,23,0,0);
         DateTime horaAlmacen = new DateTime(2022, 10, 08, 07, 30, 0);
@@ -35,18 +45,53 @@ namespace AlgoritmoLineal_Simulacion
         int j;
 
         string sTeoriaColas = "";
-        public TeoriaColas(int numPersonas, float turno, float salario, float tiempoExtra, float costoEsperaCamion)
+        public TeoriaColas(int numPersonas, float turno, float salario, float tiempoExtra, float costoEsperaCamion, float costoAlmacen)
         {
             this.numPersonas = numPersonas;
             this.turno = turno;
             this.salario = salario;
-            this.tiempoExtra = tiempoExtra;
+            this.costoTiempoExtra = tiempoExtra;
             this.costoEsperaCamion = costoEsperaCamion;
-
+            this.costoAlmacen = costoAlmacen;
             NumPseudoaleatorios oNumeros = new NumPseudoaleatorios(6, 8192, 15, 13);
             PSE = oNumeros.getNumerosPseudoaleatrios();
         }
 
+        public void CalcularCostos()
+        {
+            float totalCosto = 0;
+            float costoTesperaCamion;
+            float costoTNormalOp;
+            float costoTextraOperadores;
+            float costoDisponibilidadAlmacen;
+
+            tEsperaCamion = sumaTiempoEspera / 60;
+            costoTesperaCamion = tEsperaCamion * costoEsperaCamion;
+            Console.WriteLine("\n\nCosto espera camion: " + costoTesperaCamion);
+            sTeoriaColas = sTeoriaColas + "\nCosto espera camion: " + costoTesperaCamion;
+
+            tNormalOperadores = numPersonas * turno;
+            costoTNormalOp = tNormalOperadores * salario;
+
+            Console.WriteLine("\nCosto tiempo normal op: " + costoTNormalOp);
+            sTeoriaColas = sTeoriaColas + "\nCosto tiempo normal op: " + costoTNormalOp;
+
+            tExtraOperadores = tiempoExtra * numPersonas;
+            costoTextraOperadores = tExtraOperadores * costoTiempoExtra;
+
+            Console.WriteLine("\nCosto tiempo extra op: " + costoTextraOperadores);
+            sTeoriaColas = sTeoriaColas + "\nCosto tiempo extra op: " + costoTextraOperadores;
+
+            disponibilidadAlmacen = (float)(horaSalidaCamion - horaLaboralInicio).TotalHours;
+            costoDisponibilidadAlmacen = disponibilidadAlmacen * costoAlmacen;
+
+            Console.WriteLine("\nCosto disponibilidad almacen: " + costoDisponibilidadAlmacen);
+            sTeoriaColas = sTeoriaColas + "\nCosto disponibilidad almacen: " + costoDisponibilidadAlmacen;
+
+            totalCosto = costoTesperaCamion + costoTNormalOp + costoTextraOperadores + costoDisponibilidadAlmacen;
+            Console.WriteLine("\nCosto total: " + totalCosto);
+            sTeoriaColas = sTeoriaColas + "\nCosto total: " + totalCosto;
+        }
         public int LlegaCamion() 
         {
             i++;
@@ -101,12 +146,14 @@ namespace AlgoritmoLineal_Simulacion
             {
                 horaSalidaCamion = horaSalidaCamion.AddMinutes(30);
             }
+
             tiempoEspera = (int)(horaDescarga - horaLlegada).TotalMinutes;
+            sumaTiempoEspera = sumaTiempoEspera + tiempoEspera;
 
             sTeoriaColas = sTeoriaColas + "\t" + horaSalidaCamion.TimeOfDay + "\t" + tiempoEspera;
             Console.Write("\t" + horaSalidaCamion.TimeOfDay);
             Console.Write("\t" + tiempoEspera);
-
+            tiempoExtra = (float)(horaSalidaCamion - horaLlegada).TotalHours;
             return 1;
 
         }
@@ -120,7 +167,7 @@ namespace AlgoritmoLineal_Simulacion
                 horaLlegada = horaLaboralInicio;
                 horaSalidaCamion = new DateTime(2022, 10, 08, 0, 0, 0); ;
                 tiempoDescarga = 0;
-                
+                sumaTiempoEspera = 0;
                 numCamiones = TransfInversaCamionesEspera(PSE[i]);
                 
                 sTeoriaColas = sTeoriaColas + "\n" + PSE[i] + "\t camiones en espera: " + numCamiones;
@@ -162,13 +209,14 @@ namespace AlgoritmoLineal_Simulacion
                         break;
                     }
                 }
-
+                CalcularCostos();
                 sTeoriaColas = sTeoriaColas + "\n-------------------------------------------------------------------------------------------------------------";
                 Console.WriteLine("\n-------------------------------------------------------------------------------------------------------------");
                 contCorridas++;
             }
             Console.ReadLine();
             EscribirArchivo();
+            
         }
         public int TransfInversaCamionesEspera(float pse)
         {
