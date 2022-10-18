@@ -30,6 +30,7 @@ namespace AlgoritmoLineal_Simulacion
         DateTime horaLaboralInicio = new DateTime(2022,10,07,23,0,0);
         DateTime horaAlmacen = new DateTime(2022, 10, 08, 07, 30, 0);
         DateTime horaComida = new DateTime(2022, 10, 08, 03, 00, 0);
+        DateTime horaTerminoComida = new DateTime(2022, 10, 08, 03, 30, 0);
 
         List<float> PSE;
 
@@ -53,7 +54,7 @@ namespace AlgoritmoLineal_Simulacion
             this.costoTiempoExtra = tiempoExtra;
             this.costoEsperaCamion = costoEsperaCamion;
             this.costoAlmacen = costoAlmacen;
-            NumPseudoaleatorios oNumeros = new NumPseudoaleatorios(6, 8192, 15, 13);
+            NumPseudoaleatorios oNumeros = new NumPseudoaleatorios(7, 252, 3, 8);
             PSE = oNumeros.getNumerosPseudoaleatrios();
         }
 
@@ -101,6 +102,7 @@ namespace AlgoritmoLineal_Simulacion
             {
                 return 0;
             }
+           
             if (j == 0 || horaLlegada > horaSalidaCamion)
             {
                 horaDescarga = horaLlegada;
@@ -110,6 +112,12 @@ namespace AlgoritmoLineal_Simulacion
 
                 horaDescarga = horaSalidaCamion;
             }
+
+            //if (horaLlegada >= horaComida && horaLlegada < horaTerminoComida)
+            //{
+            //    float min = (float)(horaTerminoComida - horaLlegada).TotalMinutes;
+            //    horaDescarga.AddMinutes(min);
+            //}
 
             sTeoriaColas = sTeoriaColas + "\n" + PSE[i] + "\t" + tiempoEntreLlegada + "\t" + horaLlegada.TimeOfDay + "\t" + horaDescarga.TimeOfDay;
 
@@ -142,7 +150,7 @@ namespace AlgoritmoLineal_Simulacion
 
 
             horaSalidaCamion = horaDescarga.AddMinutes(tiempoDescarga);
-            if (horaSalidaCamion == horaComida)
+            if (horaSalidaCamion == horaComida )
             {
                 horaSalidaCamion = horaSalidaCamion.AddMinutes(30);
             }

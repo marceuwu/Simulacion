@@ -202,8 +202,12 @@ namespace AlgoritmoLineal_Simulacion
             sResultPruebas = sResultPruebas + "\n**********************************************************************************";
             Console.WriteLine("\n**********************************************************************************");
         }
-        public void PruebaVarianza(int nvlConfianza, double chiNormal, double chiComplemento)
+        public void PruebaVarianza(int nvlConfianza)
         {
+            Matriz m = new Matriz();
+            double chiComplemento = m.getChiCuadrada(8192, 0.95);
+            double chiNormal = m.getChiNormal(8192, 0.95);
+
             double media = 0;
             sResultPruebas = sResultPruebas + "\n**********************************************************************************";
             sResultPruebas = sResultPruebas + "\nPrueba de varianza";
@@ -316,5 +320,7 @@ namespace AlgoritmoLineal_Simulacion
             Escribir.WriteLine(sResultPruebas);
             Escribir.Close();
         }
+
+        
     }
 }
