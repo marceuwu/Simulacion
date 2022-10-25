@@ -26,6 +26,12 @@ namespace AlgoritmoLineal_Simulacion
         float disponibilidadAlmacen;
         float tiempoExtra;
         float sumaTiempoEspera = 0;
+        
+        float media;
+        float desviacionEstandar;
+        float suma;
+        int contSuma=0;
+        List<float> listaCostos = new List<float>();
 
         DateTime horaLaboralInicio = new DateTime(2022,10,07,23,0,0);
         DateTime horaAlmacen = new DateTime(2022, 10, 08, 07, 30, 0);
@@ -54,10 +60,29 @@ namespace AlgoritmoLineal_Simulacion
             this.costoTiempoExtra = tiempoExtra;
             this.costoEsperaCamion = costoEsperaCamion;
             this.costoAlmacen = costoAlmacen;
-            NumPseudoaleatorios oNumeros = new NumPseudoaleatorios(7, 252, 3, 8);
+            NumPseudoaleatorios oNumeros = new NumPseudoaleatorios(6, 8192, 15, 13);
             PSE = oNumeros.getNumerosPseudoaleatrios();
         }
+        public void IntervaloConfianza()
+        {
+            double mediaDCostos = media / listaCostos.Count;
+            Console.WriteLine("\n\nIntervalo de confianza: ");
+            
+            double  desvEstandarCostos = 0;
+            foreach (double x in listaCostos)
+            {
+                desvEstandarCostos = desvEstandarCostos + Math.Pow((x - mediaDCostos), 2);
+            }
+            desvEstandarCostos = desvEstandarCostos / 10;
+            desvEstandarCostos = Math.Sqrt(desvEstandarCostos);
 
+            double intervaloConInf = mediaDCostos - desvEstandarCostos / Math.Sqrt(10) * (2.262);
+            double intervaloConSup = mediaDCostos + desvEstandarCostos / Math.Sqrt(10) * (2.262);
+            Console.WriteLine("\nIntervalo de confianza: [" + intervaloConInf + "," + intervaloConSup + "]");
+            sTeoriaColas = sTeoriaColas + "\nIntervalo de confianza: [" + intervaloConInf + "," + intervaloConSup + "]";
+
+
+        }
         public void CalcularCostos()
         {
             float totalCosto = 0;
@@ -88,10 +113,15 @@ namespace AlgoritmoLineal_Simulacion
 
             Console.WriteLine("\nCosto disponibilidad almacen: " + costoDisponibilidadAlmacen);
             sTeoriaColas = sTeoriaColas + "\nCosto disponibilidad almacen: " + costoDisponibilidadAlmacen;
-
+            
             totalCosto = costoTesperaCamion + costoTNormalOp + costoTextraOperadores + costoDisponibilidadAlmacen;
             Console.WriteLine("\nCosto total: " + totalCosto);
+
+            listaCostos.Add(totalCosto);
             sTeoriaColas = sTeoriaColas + "\nCosto total: " + totalCosto;
+            media= media + totalCosto;
+            contSuma++;
+
         }
         public int LlegaCamion() 
         {
@@ -219,9 +249,13 @@ namespace AlgoritmoLineal_Simulacion
                 }
                 CalcularCostos();
                 sTeoriaColas = sTeoriaColas + "\n-------------------------------------------------------------------------------------------------------------";
-                Console.WriteLine("\n-------------------------------------------------------------------------------------------------------------");
+       
                 contCorridas++;
+                Console.WriteLine("\n-------------------------------------------------------------------------------------------------------------");
             }
+            
+            IntervaloConfianza();
+
             Console.ReadLine();
             EscribirArchivo();
             

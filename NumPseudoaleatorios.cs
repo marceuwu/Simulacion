@@ -151,10 +151,16 @@ namespace AlgoritmoLineal_Simulacion
 
 
 
-        public void PruebaUniformidad(int numDatos, double chiTabla)
+        public void PruebaUniformidad(int numDatos)
         {
+            Matriz matriz = new Matriz();
+            int numLista = r.Count;
+            double op = Math.Sqrt(numLista);
+            op = Math.Ceiling(op);
+            double chiTabla = matriz.getChiCuadrada((int)op, 0.95); 
+
             intervalos = new List<string>();
-            double m = Math.Ceiling(Math.Sqrt(numDatos)); ;
+            double m = Math.Ceiling(Math.Sqrt(numDatos)); 
             double anchoClase = 1 / m;
             double a = 0, b = anchoClase;
             int cantNumIntervalo = 0;

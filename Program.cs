@@ -29,15 +29,20 @@ namespace AlgoritmoLineal_Simulacion
             //nuevoDado.Generar();
             //nuevoDado.EscribirArchivo();
 
+
+            //NumPseudoaleatorios oNumeros = new NumPseudoaleatorios(6, 8192, 15, 13);
+            //oNumeros.PruebaUniformidad(8192);
+            //oNumeros.PruebaDeMedias();
+            //oNumeros.PruebaVarianza(95);
+            //oNumeros.PruebaDeIndependencia(8192, 1.96);
+            //oNumeros.EscribirArchivo();
+
             //TeoriaColas oCola = new TeoriaColas(3, 8, 25, 37, 100, 500);
             //oCola.Implementar(10);
+            //oCola.EscribirArchivo();
+            GeneradorNumerosAleatorios generador = new GeneradorNumerosAleatorios();
+            generador.GenerarNum(17);
 
-            NumPseudoaleatorios oNumeros = new NumPseudoaleatorios(6, 8192, 15, 13);
-            oNumeros.PruebaUniformidad(8192, 113.145);
-            oNumeros.PruebaDeMedias();
-            oNumeros.PruebaVarianza(95);
-            oNumeros.PruebaDeIndependencia(8192, 1.96);
-            oNumeros.EscribirArchivo();
 
 
 

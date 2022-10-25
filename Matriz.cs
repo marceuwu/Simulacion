@@ -10,6 +10,7 @@ namespace AlgoritmoLineal_Simulacion
 {
     internal class Matriz
     {
+        
         double [,] chiCuadrada = new double[,]
         {
             
@@ -234,7 +235,7 @@ namespace AlgoritmoLineal_Simulacion
 
             return valor;
         }
-
+        
         public double getChiNormal(int gradosLibertad, double intervaloConfianza)
         {
             int columna = 0;
