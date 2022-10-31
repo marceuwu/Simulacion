@@ -40,8 +40,9 @@ namespace AlgoritmoLineal_Simulacion
             //TeoriaColas oCola = new TeoriaColas(3, 8, 25, 37, 100, 500);
             //oCola.Implementar(10);
             //oCola.EscribirArchivo();
-            GeneradorNumerosAleatorios generador = new GeneradorNumerosAleatorios();
-            generador.GenerarNum(17);
+            GeneradorVariablesAleatorias generador = new GeneradorVariablesAleatorias();
+            generador.GeneradorVariablesNormal(100);
+            generador.TablaFrecuencia();
 
 
 

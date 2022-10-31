@@ -13,3 +13,5 @@ C:\Users\marce\source\repos\AlgoritmoLineal_Simulacion\AlgoritmoLineal_Simulacio
 C:\Users\marce\source\repos\AlgoritmoLineal_Simulacion\AlgoritmoLineal_Simulacion\obj\Debug\net6.0\AlgoritmoLineal_Simulacion.pdb
 C:\Users\marce\source\repos\AlgoritmoLineal_Simulacion\AlgoritmoLineal_Simulacion\obj\Debug\net6.0\AlgoritmoLineal_Simulacion.genruntimeconfig.cache
 C:\Users\marce\source\repos\AlgoritmoLineal_Simulacion\AlgoritmoLineal_Simulacion\obj\Debug\net6.0\ref\AlgoritmoLineal_Simulacion.dll
+C:\Users\marce\source\repos\AlgoritmoLineal_Simulacion\AlgoritmoLineal_Simulacion\bin\Debug\net6.0\MathNet.Numerics.dll
+C:\Users\marce\source\repos\AlgoritmoLineal_Simulacion\AlgoritmoLineal_Simulacion\obj\Debug\net6.0\AlgoritmoLineal_Simulacion.csproj.CopyComplete
