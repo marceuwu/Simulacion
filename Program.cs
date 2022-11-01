@@ -41,8 +41,11 @@ namespace AlgoritmoLineal_Simulacion
             //oCola.Implementar(10);
             //oCola.EscribirArchivo();
             GeneradorVariablesAleatorias generador = new GeneradorVariablesAleatorias();
-            generador.GeneradorVariablesNormal(100);
-            generador.TablaFrecuencia();
+            //generador.GeneradorVariablesNormal(100);
+            //generador.TablaFrecuencia();
+            generador.GeneradorVariablesPoisson(17,100);
+            generador.PruebaChiCuadradaPoisson();
+
 
 
 

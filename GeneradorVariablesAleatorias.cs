@@ -33,13 +33,112 @@ namespace AlgoritmoLineal_Simulacion
             PSE = oNumeros.getNumerosPseudoaleatrios();
             varGenerados = new List<float>();
         }
+        public void PruebaChiCuadradaPoisson()
+        {
+            float menor = (float)varGenerados.Min();
+            float mayor = (float)varGenerados.Max();
+            float media = (float)Statistics.Mean(varGenerados);
+            float desvEstandar = (float)Statistics.StandardDeviation(varGenerados);
+            float  varianza = (float)Statistics.Variance(varGenerados);
+            float n = varGenerados.Count();
+            float m = (float) Math.Sqrt(n);
+            float rango = mayor - menor;
+            float anchoClase = rango / m;
+            anchoClase = (float)Math.Ceiling(anchoClase);
+            media = (float)Math.Round(media, 0);
+            desvEstandar = (float)Math.Round(desvEstandar, 2);
+            m = (float)Math.Ceiling(m);
 
+            Console.WriteLine("\n\nPrueba de Chi Cuadrada para Poisson:\n\n");
+            Console.WriteLine("---------------- DATOS ----------------");
+            Console.WriteLine("Menor: " + menor);
+            Console.WriteLine("Mayor: " + mayor);
+            Console.WriteLine("Media: " + media);
+            Console.WriteLine("Desviacion Estandar: " + desvEstandar);
+            Console.WriteLine("Varianza: " + varianza);
+            Console.WriteLine("Numero de variables: " + n);
+            Console.WriteLine("Numero de clases: " + m);
+            Console.WriteLine("Rango: " + rango);
+            Console.WriteLine("Ancho de clase: " + anchoClase);
+            Console.WriteLine("Intervalos: " + m);
+            Console.WriteLine("---------------------------------------");
+            //Generar Intervalos
+            Console.WriteLine("\nIntervalo \tOi \tx \tp(x) \t\tEi \tError");
+            Console.WriteLine("-------------------------------------------------------------------------------------------------");
+            int inter = 0;
+            float frecuenciaObservada = 0;
+            float limiteInferior = 0;
+            float limiteSuperior = 0;
+            float x, px, ei, error, sumaProb = 0;
+            float pxAnterior = 0;
+            float chiCalculado = 0;
+            //Usamos como parametro los grados de libertad, que es igual a la cantidad de intervalos - 1 - el numero de parametros
+            var CHI = new ChiSquared(7);
+            //Usamos como parametro el nivel de confianza
+            float chiTabla = (float)CHI.InverseCumulativeDistribution(0.95);
+
+            //Usamos como parametro lambda, que es igual a la media
+            var POISSON = new Poisson(16);
+
+            while (inter < m)
+            {
+                frecuenciaObservada = 0;
+                limiteInferior = (float)(0 + (inter * anchoClase));
+                if (inter == m - 1)
+                {
+                    limiteSuperior = 1000;
+                }
+                else
+                {
+                    limiteSuperior = (float)(limiteInferior + anchoClase);
+                }
+                frecuenciaObservada = frecuenciaObservada + isBetween(limiteInferior, limiteSuperior);
+                if (inter == m - 1)
+                {
+                    x = 0;
+                    px = 1 - sumaProb;
+                    sumaProb = sumaProb + px;
+                    ei = n * px;
+                    error = (float)Math.Pow((ei - frecuenciaObservada), 2) / ei;
+                    chiCalculado = chiCalculado + error;
+                    Console.WriteLine("[" + Math.Round(limiteInferior, 2) + "," + Math.Round(limiteSuperior, 2) + "  ] \t" + frecuenciaObservada + " \t" + x + " \t" + Math.Round(px, 5) + "  \t" + Math.Round(ei, 2) + " \t" + Math.Round(error, 2));
+                }
+                else
+                {
+                    x = limiteSuperior;
+                    px = (float)POISSON.CumulativeDistribution(x);
+                    px = px - pxAnterior;
+                    pxAnterior = pxAnterior + px;
+                    sumaProb = sumaProb + px;
+                    ei = n * px;
+                    error = (float)Math.Pow((ei - frecuenciaObservada), 2) / ei;
+                    chiCalculado = chiCalculado + error;
+                    Console.WriteLine( Math.Round(limiteInferior, 2) + " - " + Math.Round(limiteSuperior, 2) + " \t" + frecuenciaObservada + " \t" + x + " \t" + Math.Round(px, 5) + "  \t" + Math.Round(ei, 2) + " \t" + Math.Round(error, 2));
+                }
+                inter++;
+            }
+            Console.WriteLine("-------------------------------------------------------------------------------------------------");
+            Console.WriteLine("Chi Calculado: " + Math.Round(chiCalculado, 2));
+            Console.WriteLine("Chi Tabla: " + chiTabla);
+            if (chiCalculado < chiTabla)
+            {
+                Console.WriteLine("Se ha pasado la prueba");
+            }
+            else
+            {
+                Console.WriteLine("No se ha pasado la prueba");
+            }
+
+        }
         public float EcuacionRecursivaPoisson(float landa)
         {
+            n = 0;
+            t = 1;
             float e = (float)Math.Exp(-landa);
-            foreach (var num in PSE)
+            for(; ; )
             {
-                tPrima = t * num;
+                tPrima = t * PSE[cont];
+                cont++;
                 if(tPrima >= e)
                 {
                     n++;
@@ -47,7 +146,7 @@ namespace AlgoritmoLineal_Simulacion
                 }
                 else
                 {
-                    Console.WriteLine(n);
+                    //Console.WriteLine(n);
                     return n;
                 }
             }
@@ -194,7 +293,16 @@ namespace AlgoritmoLineal_Simulacion
                 Console.WriteLine(num);
             }
         }
-
+        public void GeneradorVariablesPoisson(float landa, int corridas)
+        {
+            float num = 0;
+            for (int i = 0; i < corridas; i++)
+            {
+                num = EcuacionRecursivaPoisson(landa);
+                varGenerados.Add(num);
+                Console.WriteLine(num);
+            }
+        }
         public int isBetween(float inf, float sup)
         {
             int i = 0;
